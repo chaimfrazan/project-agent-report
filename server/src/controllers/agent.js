@@ -4,21 +4,21 @@ export async function agentLogin(req, res) {
     try {
         const { agentCode, password } = req.body
         if (!password || !agentCode) {
-            res.status(400).json({
+           return res.status(400).json({
                 sucess: false,
                 message: "missing agentCode or password",
             })
         }
         const login = await serviceAgentLogin(agentCode, password)
         if (login) {
-            res.status(200).json({
+            return res.status(200).json({
                 sucess: true,
                 token: login.token,
                 user: login.user
             })
         }
         if (login === 'user not found') {
-            res.status(401).json({
+            return res.status(401).json({
                 sucess: false,
                 message: 'agent not found'
             })
@@ -33,7 +33,7 @@ export async function agentLogin(req, res) {
 
 export async function agent(req, res) {
     try {
-        const { agentCode } = req.body
+        const { agentCode } = req.user
         const agent = serviceAgent(agentCode)
         res.status(200).json({ agent })
 

@@ -4,14 +4,14 @@ export async function signAgent(req, res, next) {
     try {
         const { agentCode, password, fullName, role } = req.body;
         if (!agentCode || !password || !fullName || !role) {
-            res.status(400).json({
+           return res.status(400).json({
                 success: false,
                 message: "missing some of things",
             });
         }
         const sigin = await serviceSiginAgents(agentCode, password, fullName, role);
         if (sigin) {
-            res.status(201).json({
+            return res.status(201).json({
                 sucess: true,
                 user: sigin,
                 message: 'created'
@@ -26,11 +26,11 @@ export async function signAgent(req, res, next) {
 
 export async function allAgents(req, res, next) {
     try {
-        const agents = serviceAllAgents()
+        const agents = await serviceAllAgents()
         if (!agents) {
             res.status(401).json({
                 success: false,
-                message: "not found agents",
+                message: "not agents found",
             })
         }
         res.status(200).json({

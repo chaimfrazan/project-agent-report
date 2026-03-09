@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { token } from '../middlewere/requireAuth.js'
-import { createReport, importCsv } from '../controllers/report.js'
+import { verifyToken } from '../middlewere/requireAuth.js'
+import { createReport, importCsv, getReports, getReport } from '../controllers/report.js'
+import imageUpload from '../middlewere/uploadImg.js'
 
 const router = Router()
 
-router.post('/reports', token, createReport)
-router.post('/reports/csv', token, importCsv)
+router.post('/', verifyToken, imageUpload.single('image'), createReport)
+router.post('/csv', verifyToken, importCsv)
+router.get('/', verifyToken, getReports)
+router.get('/:id', verifyToken, getReport)
 
 export default router

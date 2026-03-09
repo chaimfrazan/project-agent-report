@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const token = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
     try {
         let token;
         if (
@@ -19,10 +19,11 @@ export const token = async (req, res, next) => {
         const secret = process.env.SECRET_TOKEN;
         const user = jwt.verify(token, secret);
         if (!user) {
-            console.log("Token verification failed or missing _id");
-            res.status(401).json({ success: false, message: "Not authorized" });
+            console.log("Token verification failed or missing id");
+            return res.status(401).json({ success: false, message: "Not authorized" });
         }
         req.user = user;
+        //agentCode,id,role
 
         next();
     } catch (err) {
@@ -32,13 +33,13 @@ export const token = async (req, res, next) => {
 };
 
 export const verifyAdmin = (req, res, next) => {
-  token(req, res, (err) => {
-    if (err) return next(err);
-    
-    if (req.user.role === 'admin') {
-      return next();
-    }
-    
-     res.status(403).json({message: "You are not authorized as admin"})
-  });
+    token(req, res, (err) => {
+        if (err) return next(err);
+
+        if (req.user.role === 'admin') {
+            return next();
+        }
+
+        res.status(403).json({ message: "You are not authorized as admin" })
+    });
 };

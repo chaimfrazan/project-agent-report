@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { agentLogin ,agent } from '../controllers/agent.js'
-import { token } from '../middlewere/requireAuth.js'
+import { verifyToken } from '../middlewere/requireAuth.js'
 
 const router = Router()
 
-router.post('/auth/login', agentLogin)
-router.get('/auth/me', token ,agent)
+router.post('/login', agentLogin)
+router.get('/me', verifyToken ,agent)
 
 export default router

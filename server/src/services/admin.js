@@ -21,15 +21,15 @@ export async function serviceSiginAgents(agentCode, password, fullName, role) {
             createdAt: new Date(),
         });
         const agent = await collection.findOne({ agentCode });
+
         return {
-            user: {
-                id: agent._id,
-                agentCode: agent.agentCode,
-                fullName: agent.fullName,
-                role: agent.role,
-                password: agent.password
-            }
+            id: agent._id,
+            agentCode: agent.agentCode,
+            fullName: agent.fullName,
+            role: agent.role,
+             password: agent.password
         };
+        
     } catch (error) {
         return error.message;
     }
@@ -37,7 +37,7 @@ export async function serviceSiginAgents(agentCode, password, fullName, role) {
 
 export async function serviceAllAgents() {
     try {
-        const agents = collection.find({})
+        const agents = await collection.find().toArray()
         return agents
     } catch (error) {
         return error.message
