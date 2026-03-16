@@ -17,10 +17,6 @@ export async function getDb() {
       { agentCode: 1 },
       { unique: true }
     );
-    await db.collection("reports").createIndex(
-      { message: 1 },
-      { unique: true }
-    );
 
     return db;
   } catch (err) {

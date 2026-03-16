@@ -7,14 +7,14 @@ const db = await getDb();
 const collection = await db.collection("reports");
 
 
-export async function serviceCreateReport(category, urgency, message, imagePath, id) {
+export async function serviceCreateReport(urgency, category, message, imagePath, agentCode) {
     await collection.insertOne({
-        userId: id,
-        category: category,
+        agentCode: agentCode,
         urgency: urgency,
+        category: category,
         message: message,
         imagePath: imagePath,
-        sourceType: 'manual',
+        sourceType: 'form',
         createdAt: new Date(),
     });
     const res = await collection.findOne({ message });
@@ -24,9 +24,9 @@ export async function serviceCreateReport(category, urgency, message, imagePath,
     }
 }
 
-export async function createReportsFromCsv(id, records) {
+export async function createReportsFromCsv(agentCode, records) {
     const reportsToSave = records.map(record => ({
-        userId: id,
+        agentCode: agentCode,
         ...record,
         sourceType: 'csv',
         createdAt: new Date()

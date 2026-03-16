@@ -14,7 +14,7 @@ export async function signAgent(req, res, next) {
             return res.status(201).json({
                 sucess: true,
                 user: sigin,
-                message: 'created'
+                message: 'created successfuly'
             })
         } if (sigin === 'agentCode already exists') {
             res.status(409).json({ success: false, message: "agentCode already exists" });

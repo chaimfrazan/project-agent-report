@@ -18,11 +18,6 @@ app.use(express.json())
 app.use(fileUpload());
 app.use(cors())
 
-app.get('/hi',(req,res)=>{
-    res.status(200).json({ message: 'message success'})
-   console.log('object')
-})
-
 app.use('/auth', agent)
 app.use('/reports', report)
 app.use('/admin', admin)

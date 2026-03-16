@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const verifyToken = async (req, res, next) => {
+    let token;
     try {
-        let token;
         if (
             req.headers.authorization &&
             req.headers.authorization.startsWith("Bearer")
@@ -33,7 +33,7 @@ export const verifyToken = async (req, res, next) => {
 };
 
 export const verifyAdmin = (req, res, next) => {
-    token(req, res, (err) => {
+    verifyToken(req, res, (err) => {
         if (err) return next(err);
 
         if (req.user.role === 'admin') {
